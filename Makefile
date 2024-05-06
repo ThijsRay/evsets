@@ -1,5 +1,4 @@
-CC = clang
-CFLAGS += -std=gnu11 -Wall -pedantic -Wextra -fPIC -O3
+CFLAGS += -std=gnu11 -Wall -pedantic -Wextra -Wno-implicit-fallthrough -fPIC -O3
 LDFLAGS += -lm
 
 evsets_dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))

@@ -237,7 +237,7 @@ pick:
     return 1;
   }
 
-  clock_t ts, te;
+  clock_t ts = {0}, te = {0};
 
   int len = 0;
   int id = num_evsets;

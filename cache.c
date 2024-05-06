@@ -120,7 +120,7 @@ inline void traverse_list_simple(EvsetsElement *ptr) {
 }
 
 inline void traverse_list_rrip(EvsetsElement *ptr) {
-  EvsetsElement *p, *s = ptr;
+  EvsetsElement *p = 0, *s = ptr;
   while (ptr) {
     p = ptr;
     maccess(ptr);

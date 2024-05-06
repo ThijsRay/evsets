@@ -347,7 +347,7 @@ int gt_eviction_any(EvsetsElement **ptr, EvsetsElement **can) {
 int binary_eviction(EvsetsElement **ptr, EvsetsElement **can, char *victim) {
   // shameful inneficient implementation with lists...
   // any good way to add backtracking?
-  int olen = list_length(*ptr), len, cans, count = 0, i = 0, ret = 0;
+  int olen = list_length(*ptr), len = 0, cans = 0, count = 0, i = 0, ret = 0;
   double x = 0, pivot = 0, laste = 0, lastn = 0;
   EvsetsElement *positive = NULL;
   while (count < conf.cache_way) {
