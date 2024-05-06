@@ -3,10 +3,10 @@
 
 #include "public_structs.h"
 
-int init_evsets(struct config *conf);
+int init_evsets(struct evsets_config *conf);
 int find_evsets(void);
 int get_num_evsets(void);
-Elem *get_evset(int id);
+EvsetsElement *get_evset(int id);
 void close_evsets(void);
 
 #endif /* evsets_api_H */

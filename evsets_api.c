@@ -23,9 +23,9 @@
 
 #define MAX_REPS 50
 
-struct config conf;
+struct evsets_config conf;
 
-static Elem **evsets = NULL;
+static EvsetsElement **evsets = NULL;
 static int num_evsets = 0;
 static int colors = 0;
 static char *probe = NULL;
@@ -33,9 +33,9 @@ static char *pool = NULL;
 static ul pool_sz = 0;
 static ul sz = 0;
 
-int init_evsets(struct config *conf_ptr) {
+int init_evsets(struct evsets_config *conf_ptr) {
   // save config
-  memcpy(&conf, conf_ptr, sizeof(struct config));
+  memcpy(&conf, conf_ptr, sizeof(struct evsets_config));
 
 #ifdef THREAD_COUNTER
   if (create_counter()) {
@@ -76,7 +76,7 @@ int init_evsets(struct config *conf_ptr) {
   }
 
   printf("[+] %llu MB buffer allocated at %p (%llu blocks)\n", sz >> 20, (void *)&pool[conf.offset << 6],
-         sz / sizeof(Elem));
+         sz / sizeof(EvsetsElement));
 
   if (conf.stride < 64 || conf.stride % 64 != 0) {
     printf("[!] Error: invalid stride\n");
@@ -110,7 +110,7 @@ int init_evsets(struct config *conf_ptr) {
   }
 
   colors = conf.cache_size / conf.cache_way / conf.stride;
-  evsets = calloc(colors, sizeof(Elem *));
+  evsets = calloc(colors, sizeof(EvsetsElement *));
   if (!evsets) {
     printf("[!] Error: allocate\n");
     goto err;
@@ -138,7 +138,7 @@ void close_evsets(void) {
 
 int get_num_evsets(void) { return num_evsets; }
 
-Elem *get_evset(int id) {
+EvsetsElement *get_evset(int id) {
   if (id >= num_evsets) {
     return NULL;
   }
@@ -148,8 +148,8 @@ Elem *get_evset(int id) {
 
 int find_evsets(void) {
   char *victim = NULL;
-  Elem *ptr = NULL;
-  Elem *can = NULL;
+  EvsetsElement *ptr = NULL;
+  EvsetsElement *can = NULL;
 
   victim = &probe[conf.offset << 6];
   *victim = 0; // touch line
@@ -178,7 +178,7 @@ int find_evsets(void) {
   tts = clock();
 pick:
 
-  ptr = (Elem *)&pool[conf.offset << 6];
+  ptr = (EvsetsElement *)&pool[conf.offset << 6];
   initialize_list(ptr, pool_sz, conf.offset);
 
   // Conflict set incompatible with ANY case (don't needed)
@@ -189,7 +189,7 @@ pick:
     victim = (char *)ptr;
     ptr = can; // new conflict set
     while (victim && !tests(ptr, victim, conf.rounds, conf.threshold, conf.ratio, conf.traverse)) {
-      victim = (char *)(((Elem *)victim)->next);
+      victim = (char *)(((EvsetsElement *)victim)->next);
     }
     can = NULL;
   } else {
@@ -334,7 +334,7 @@ pick:
     list_set_id(evsets[id], id);
     ptr = can;
     if (conf.flags & FLAG_FINDALLCONGRUENT) {
-      Elem *e = NULL, *head = NULL, *done = NULL, *tmp = NULL;
+      EvsetsElement *e = NULL, *head = NULL, *done = NULL, *tmp = NULL;
       int count = 0, t = 0;
       while (ptr) {
         e = list_pop(&ptr);
@@ -380,7 +380,7 @@ pick:
           victim += conf.stride;
           *victim = 0;
         } else {
-          victim = (char *)((Elem *)victim)->next;
+          victim = (char *)((EvsetsElement *)victim)->next;
         }
 
         // Check again. Better reorganize this mess.

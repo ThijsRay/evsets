@@ -1,11 +1,9 @@
 #ifndef micro_H
 #define micro_H
 
-#include "cache.h"
+#include "public_structs.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define LINE_BITS 6
 #define PAGE_BITS 12
@@ -48,7 +46,7 @@ inline void maccess(void *p) { __asm__ volatile("movq (%0), %%rax\n" : : "c"(p) 
 
 ul vtop(ul vaddr);
 ul ptos(ul paddr, ul slicebits);
-void recheck(Elem *ptr, char *victim, bool err, struct config *conf);
-int filter(Elem **ptr, char *vicitm, int n, int m, struct config *conf);
+void recheck(EvsetsElement *ptr, char *victim, bool err, struct evsets_config *conf);
+int filter(EvsetsElement **ptr, char *vicitm, int n, int m, struct evsets_config *conf);
 
 #endif /* micro_H */

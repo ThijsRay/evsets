@@ -3,10 +3,10 @@
 
 #include "cache.h"
 
-int naive_eviction(Elem **ptr, Elem **can, char *victim);
-int naive_eviction_optimistic(Elem **ptr, Elem **can, char *victim);
-int gt_eviction(Elem **ptr, Elem **can, char *victim);
-int gt_eviction_any(Elem **ptr, Elem **can);
-int binary_eviction(Elem **ptr, Elem **can, char *victim);
+int naive_eviction(EvsetsElement **ptr, EvsetsElement **can, char *victim);
+int naive_eviction_optimistic(EvsetsElement **ptr, EvsetsElement **can, char *victim);
+int gt_eviction(EvsetsElement **ptr, EvsetsElement **can, char *victim);
+int gt_eviction_any(EvsetsElement **ptr, EvsetsElement **can);
+int binary_eviction(EvsetsElement **ptr, EvsetsElement **can, char *victim);
 
 #endif /* algorithms_H */

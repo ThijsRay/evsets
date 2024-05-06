@@ -1,11 +1,11 @@
 #ifndef cache_H
 #define cache_H
 
-#include <stdlib.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #ifdef THREAD_COUNTER
-    #include <pthread.h>
+#include <pthread.h>
 #endif
 
 #include "private_structs.h"
@@ -14,27 +14,28 @@
 static pthread_t thread;
 static struct params_t params;
 
-void* counter_thread();
+void *counter_thread();
 static inline uint64_t clock_thread();
 int create_counter();
 void destroy_counter();
 #endif /* THREAD_COUNTER */
 
-void traverse_list_skylake(Elem *ptr);
-void traverse_list_haswell(Elem *ptr);
-void traverse_list_simple(Elem *ptr);
-void traverse_list_asm_skylake(Elem *ptr);
-void traverse_list_asm_haswell(Elem *ptr);
-void traverse_list_asm_simple(Elem *ptr);
-void traverse_list_rrip(Elem *ptr);
-void traverse_list_to_n(Elem *ptr, int n);
-void traverse_list_time(Elem *ptr, void (*trav)(Elem*));
+void traverse_list_skylake(EvsetsElement *ptr);
+void traverse_list_haswell(EvsetsElement *ptr);
+void traverse_list_simple(EvsetsElement *ptr);
+void traverse_list_asm_skylake(EvsetsElement *ptr);
+void traverse_list_asm_haswell(EvsetsElement *ptr);
+void traverse_list_asm_simple(EvsetsElement *ptr);
+void traverse_list_rrip(EvsetsElement *ptr);
+void traverse_list_to_n(EvsetsElement *ptr, int n);
+void traverse_list_time(EvsetsElement *ptr, void (*trav)(EvsetsElement *));
 
-int test_set(Elem *ptr, char *victim, void (*trav)(Elem*));
-int tests(Elem *ptr, char *victim, int rep, int threshold, float ratio, void (*trav)(Elem*));
-int tests_avg(Elem *ptr, char *victim, int rep, int threshold, void (*trav)(Elem*));
-int test_and_time(Elem *ptr, int rep, int threshold, int ways, void (*trav)(Elem*));
+int test_set(EvsetsElement *ptr, char *victim, void (*trav)(EvsetsElement *));
+int tests(EvsetsElement *ptr, char *victim, int rep, int threshold, float ratio,
+          void (*trav)(EvsetsElement *));
+int tests_avg(EvsetsElement *ptr, char *victim, int rep, int threshold, void (*trav)(EvsetsElement *));
+int test_and_time(EvsetsElement *ptr, int rep, int threshold, int ways, void (*trav)(EvsetsElement *));
 
-int calibrate(char *victim, struct config *conf);
+int calibrate(char *victim, struct evsets_config *conf);
 
 #endif /* cache_H */
